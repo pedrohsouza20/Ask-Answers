@@ -3,9 +3,17 @@
   <%- include('partials/navbar.ejs') %>
 
   <div class="container">
-    <div class="card">
-      <h1>Estiloso em pae</h1>
+    <h3 class="mt-4 mb-2 text-primary">Últimas perguntas feitas</h3>
+    <% asks.forEach(ask => { %>
+    <div class="card my-3">
+      <div class="card-body">
+        <h5><%= ask.title %></h4>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary">Responder</button>
+      </div>
     </div>
+    <%}) %>
   </div>
 </body>
 <%- include('partials/footer.ejs') %>
