@@ -1,6 +1,19 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const connection = require("./database/database");
 const app = express();
+const askModel = require("./database/Ask");
+const Ask = require("./database/Ask");
+const { redirect } = require("express/lib/response");
+
+connection
+  .authenticate()
+  .then(() => {
+    console.log("Conectado ao banco de dados");
+  })
+  .catch((error) => {
+    console.log("Erro ao conectar ao banco de dados", error);
+  });
 
 // Usar o EJS como a View Engine
 app.set("view engine", "ejs");
@@ -21,7 +34,12 @@ app.get("/ask", (req, res) => {
 app.post("/make-ask", (req, res) => {
   let askTitle = req.body.askTitle;
   let askBody = req.body.askBody;
-  res.send(`Pergunta enviada com sucesso. Título: ${askTitle}, descrição: ${askBody}`);
+  Ask.create({
+    title: askTitle,
+    description: askBody,
+  }).then(() => {
+    res.redirect("/");
+  });
 });
 
 app.listen(4040, () => {
