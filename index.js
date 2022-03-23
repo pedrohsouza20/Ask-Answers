@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  Ask.findAll({ raw: true }).then((asks) => {
+  Ask.findAll({ raw: true, order: [["id", "DESC"]] }).then((asks) => {
     res.render("index", {
       asks: asks,
     });
