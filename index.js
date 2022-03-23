@@ -35,6 +35,19 @@ app.get("/ask", (req, res) => {
   res.render("ask");
 });
 
+app.get("/ask/:id", (req, res) => {
+  let id = req.params.id;
+  Ask.findOne({
+    where: { id: id },
+  }).then((ask) => {
+    if (ask) {
+      res.render("one-ask");
+    } else {
+      res.redirect("/");
+    }
+  });
+});
+
 app.post("/make-ask", (req, res) => {
   let askTitle = req.body.askTitle;
   let askBody = req.body.askBody;
