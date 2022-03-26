@@ -9,8 +9,18 @@
         <p><%= ask.description %></p>
       </div>
       <div class="card-footer">
-        <textarea placeholder="Digite sua resposta..." class="form-control mb-2" name="answer-body" id="" cols="30" rows="10"></textarea>
-        <button type="submit" class="btn btn-primary">Responder</button>
+        <form action="">
+          <textarea
+            placeholder="Digite sua resposta..."
+            class="form-control mb-2"
+            name="answer-body"
+            id=""
+            cols="30"
+            rows="10"
+          ></textarea>
+          <input type="hidden" name="" id="" value="<%=ask.id%>" />
+          <button type="submit" class="btn btn-primary">Responder</button>
+        </form>
       </div>
     </div>
   </div>
