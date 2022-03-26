@@ -7,11 +7,17 @@
     <% asks.forEach(ask => { %>
     <div class="card my-3">
       <div class="card-body">
-        <h5><%= ask.title %></h4>
+        <h4>
+          <a href="/asks/<%-ask.id%>" class="text-decoration-none"
+            ><%= ask.title %></a
+          >
+        </h4>
         <p><%= ask.description %></p>
       </div>
       <div class="card-footer">
-        <button class="btn btn-primary">Responder</button>
+        <a href="/asks/<%-ask.id%>"
+          ><button class="btn btn-primary">Responder</button></a
+        >
       </div>
     </div>
     <%}) %>

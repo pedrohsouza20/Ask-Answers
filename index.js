@@ -2,9 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const connection = require("./database/database");
 const app = express();
-const askModel = require("./database/Ask");
 const Ask = require("./database/Ask");
-const { redirect } = require("express/lib/response");
+const Answer = require("./database/Answer");
 
 connection
   .authenticate()
@@ -31,17 +30,19 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/ask", (req, res) => {
-  res.render("ask");
+app.get("/new-ask", (req, res) => {
+  res.render("new-ask");
 });
 
-app.get("/ask/:id", (req, res) => {
+app.get("/asks/:id", (req, res) => {
   let id = req.params.id;
   Ask.findOne({
     where: { id: id },
   }).then((ask) => {
     if (ask) {
-      res.render("one-ask");
+      res.render("ask", {
+        ask: ask,
+      });
     } else {
       res.redirect("/");
     }
