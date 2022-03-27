@@ -6,10 +6,12 @@ const Answer = connection.define("answers", {
     type: Sequelize.TEXT,
     allowNull: false,
   },
-  answerId: {
+  askId: {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
 });
 
 Answer.sync({ force: false });
+
+module.exports = Answer;

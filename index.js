@@ -36,13 +36,30 @@ app.get("/new-ask", (req, res) => {
 
 app.get("/asks/:id", (req, res) => {
   let id = req.params.id;
+  let answersOfAsk;
+
   Ask.findOne({
     where: { id: id },
   }).then((ask) => {
     if (ask) {
-      res.render("ask", {
-        ask: ask,
-      });
+      Answer.findAll({ where: { askId: id }, order: [["id", "DESC"]] }).then(
+        (answers) => {
+          console.log(answers);
+          answersOfAsk = answers;
+          if (answers) {
+            res.render("ask", {
+              answers: answers,
+              ask: ask,
+            });
+          } else {
+            console.log(answers);
+            res.render("ask", {
+              answers: false,
+              ask: ask,
+            });
+          }
+        }
+      );
     } else {
       res.redirect("/");
     }
@@ -55,9 +72,29 @@ app.post("/make-ask", (req, res) => {
   Ask.create({
     title: askTitle,
     description: askBody,
-  }).then(() => {
-    res.redirect("/");
-  });
+  })
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((error) => {
+      console.log("Erro ao criar pergunta" + error);
+    });
+});
+
+app.post("/to-answer", (req, res) => {
+  let answerBody = req.body.answerBody;
+  let askId = req.body.askId;
+  console.log(answerBody, askId);
+  Answer.create({
+    body: answerBody,
+    askId: askId,
+  })
+    .then(() => {
+      res.redirect(`/asks/${askId}`);
+    })
+    .catch((error) => {
+      console.log("Erro ao responder a pergunta" + error);
+    });
 });
 
 app.listen(4040, () => {
